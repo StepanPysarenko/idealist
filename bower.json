@@ -1,0 +1,21 @@
+{
+  "name": "Idealist",
+  "description": "MEAN stack experiment application",
+  "main": "app.js",
+  "authors": [
+    "StepanPysarenko"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/StepanPysarenko/idealist",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-router-menus": "^0.2.1"
+  }
+}
