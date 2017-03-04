@@ -29,9 +29,7 @@
       <ul class="list-inline" ng-controller="NavController">
 
         <a ng-repeat="navLink in navLinks" href='{{navLink.href}}'>
-          <li ng-class="navClass('{{navLink.href}}')">
-            <!-- <span class='glyphicon glyphicon-{{navLink.glyphicon}}' aria-hidden="true" alt=""></span> -->{{navLink.linkText}}
-          </li>
+          <li ng-class="navClass('{{navLink.href}}')">{{navLink.linkText}}</li>
         </a>
 
       </ul>

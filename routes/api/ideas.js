@@ -10,7 +10,7 @@ router.delete('/:id', deleteIdea);
 module.exports = router;
 
 function getIdeas(req, res) {
-  db.query('SELECT id, text FROM ideas ORDER BY id ASC;')
+  db.query('SELECT * FROM ideas ORDER BY id ASC;')
   .on('end', function(result) {
     res.status(200).send(result.rows);
   })

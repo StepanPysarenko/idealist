@@ -97,19 +97,15 @@
 
       $scope.navLinks = [{
         href: 'home',
-        glyphicon : 'home',
         linkText: 'Home',
       }, {
         href: 'new',
-        glyphicon : 'plus',
         linkText: 'New'
       }, {
         href: 'register',
-        glyphicon : 'user',
         linkText: 'Register'
       }, {
         href: 'login',
-        glyphicon : 'log-in',
         linkText: 'Log in'
       }];
 
