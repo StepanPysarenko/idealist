@@ -1,30 +1,22 @@
-<form id="new-idea">
-  <h3>Create a new idea</h3>
-  <div class="form-group">
-    <input type="text" ng-model="vm.idea.text">
-  </div>
-  <div class="form-group">
-    <button type="submit" class="btn btn-default" ng-click="vm.createIdea()">Create</button>
-  </div>
-</form>
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
 
-
-<!-- <div class="checkbox" ng-repeat="idea in vm.ideas">
-  <label>
-    <input type="checkbox" ng-click="vm.deleteIdea(idea._id)"> {{ idea.text }}
-  </label>
-</div> -->
-
-
-
-<div ng-show="vm.ideas != null">
-  <br>
-  <h3>Recent ideas</h3>
-  <div class="row">
-    <div class="col-xs-12" ng-repeat="idea in vm.ideas">
-      <div class="item" ng-click="vm.deleteIdea(idea.id)">
-        {{ idea.text }}
+    <form id="new-idea">
+      <h3>Create a new idea</h3>
+      <h5 class="text-muted">Contribute to the public list of free-for-use ideas</h5>
+      <div class="form-group">
+        <textarea ng-model="vm.idea.text"></textarea>
       </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-default pull-right" ng-click="vm.createIdea()">Publish idea!</button>
+      </div>
+    </form>
+
+    <div class="clearfix"></div>
+
+    <div class="idea-list" ng-show="vm.ideas != null">
+      <div class="idea" ng-repeat="idea in vm.ideas" ng-click="vm.deleteIdea(idea.id)">{{ idea.text }}</div>
     </div>
+
   </div>
 </div>

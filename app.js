@@ -7,8 +7,6 @@ var expressJwt = require('express-jwt');
 var config = require('config.json');
 var db = require('db');
 
-var port = process.env.PORT;
-
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -36,6 +34,7 @@ app.all('*', function(req, res) {
   res.redirect('/');
 });
 
+var port = process.env.PORT;
 var server = app.listen(port, function () {
   console.log("App is listening on port " + port);
 });                      
@@ -43,6 +42,3 @@ var server = app.listen(port, function () {
 // TODO
 // html5 routing
 // check email pattern on registration
-
-
-// env $(cat .env) nodemon app.js

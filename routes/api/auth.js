@@ -1,9 +1,10 @@
 var config = require('config.json');
 var express = require('express');
 var router = express.Router();
+var db = require('db');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
-var db = require('db');
+
 
 router.post('/', authenticateUser);
 router.get('/decoded', tokenDecoded);

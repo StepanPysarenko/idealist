@@ -34,7 +34,7 @@ function createIdea(req, res) {
 }
 
 function deleteIdea(req, res) {
-  db.query('DELETE FROM ideas WHERE id=($1);', [req.params.id])
+  db.query('DELETE FROM ideas WHERE id=$1;', [req.params.id])
   .on('end', function(result) {
     getIdeas(req, res);
   })

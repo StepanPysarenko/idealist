@@ -1,8 +1,8 @@
 var config = require('config.json');
 var express = require('express');
 var router = express.Router();
-var bcrypt = require('bcrypt');
 var db = require('db');
+var bcrypt = require('bcrypt');
 
 router.get('/', getAllUsers);
 router.post('/', registerUser);
@@ -40,7 +40,7 @@ function registerUser(req, res) {
           res.status(200).send();
         })
         .on('error', function(err) {
-          res.status(400).send();
+          res.status(400).send({ message: 'Invalid credentials.' });
         });
 
       })
@@ -52,25 +52,4 @@ function registerUser(req, res) {
     res.status(400).send();
   });
 
-  // User.findOne({ username: req.body.username })
-  //   .then(function (user) {
-  //     if(user) {
-  //       res.status(400).send({ message: 'Username is already taken.' });
-  //     } else {
-  //       bcrypt.hash(req.body.password, 10)
-  //         .then(function(hash) {
-  //           return User.create({
-  //             username: req.body.username,
-  //             email: req.body.email,
-  //             password: hash
-  //           });
-  //         })
-  //         .then(function (user) {
-  //           res.status(200).send();
-  //         });
-  //     } 
-  //   })
-  //   .catch(function (err) {
-  //     res.status(400).send();
-  //   });
 }
