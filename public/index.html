@@ -26,10 +26,10 @@
       <ul class="list-inline" ng-controller="MenuController">
         <a href='home'><li ng-class="getClass('home')">Home</li></a>
         <a href='new'><li ng-class="getClass('new')">New</li></a>
-        <a href='register' ng-show="!isLoggedIn"><li ng-class="getClass('register')">Register</li></a>
-        <a href='login' ng-show="!isLoggedIn"><li ng-class="getClass('login')">Log in</li></a>      
-        <a href='profile' ng-show="isLoggedIn"><li ng-class="getClass('profile')">Profile</li></a>
-        <a href='logout' ng-show="isLoggedIn"><li ng-class="getClass('logout')">Logout</li></a>
+        <a href='register' ng-show="!isLoggedIn()"><li ng-class="getClass('register')">Register</li></a>
+        <a href='login' ng-show="!isLoggedIn()"><li ng-class="getClass('login')">Log in</li></a>      
+        <a href='profile' ng-show="isLoggedIn()"><li ng-class="getClass('profile')">Profile</li></a>
+        <a href='logout' ng-show="isLoggedIn()"><li ng-class="getClass('logout')">Log out</li></a>
       </ul>
     </div>
 

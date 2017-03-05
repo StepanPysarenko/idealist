@@ -55,19 +55,20 @@
 
   }
 
-  function run($rootScope, $http, $location, $localStorage) {
-    if ($localStorage.currentUser) {
-      $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
+  function run($rootScope, $http, $location, AuthService) {
+    if (AuthService.isLoggedIn()) {
+      $http.defaults.headers.common.Authorization = 'Bearer ' + AuthService.currentUser().token;
     }
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
-      // var publicPages = ['/login', '/home'];
-      // var restrictedPage = publicPages.indexOf($location.path()) === -1;
+      var restrictedPagesLoggedIn = ['/login', '/register'];
+      var restrictedPagesGuest = ['/profile'];
 
-      var restrictedPages = [];
-      var restrictedPage = restrictedPages.indexOf($location.path()) > -1;
+      var isRestricted = 
+        ( AuthService.isLoggedIn() && restrictedPagesLoggedIn.indexOf($location.path()) > -1 )
+        || ( !AuthService.isLoggedIn() && restrictedPagesGuest.indexOf($location.path()) > -1 );
       
-      if (restrictedPage && !$localStorage.currentUser) {
+      if (isRestricted) {
         $location.path('/home');
       }
     });

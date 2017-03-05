@@ -8,13 +8,13 @@
         <textarea ng-model="vm.idea.text"></textarea>
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-default pull-right" ng-click="vm.createIdea()">Publish idea!</button>
+        <button type="submit" class="btn btn-default pull-right" ng-click="vm.createIdea()">Publish!</button>
       </div>
     </form>
 
     <div class="clearfix"></div>
 
-    <div class="idea-list" ng-show="vm.ideas != null">
+    <div class="idea-list">
       <div class="idea" ng-repeat="idea in vm.ideas" ng-click="vm.deleteIdea(idea.id)">{{ idea.text }}</div>
     </div>
 

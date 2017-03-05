@@ -11,9 +11,8 @@
   .controller('LogoutController', LogoutController)
   .controller('MenuController', MenuController);
 
-  function NewController($scope, $http, IdeaService) {
+  function NewController($scope, $http, IdeaService, AuthService) {
     var vm = this;
-
     vm.createIdea = createIdea;
     vm.deleteIdea = deleteIdea;
 
@@ -35,6 +34,8 @@
     };
 
     function deleteIdea(id) {
+      if(!AuthService.isLoggedIn())
+        return;
       IdeaService.delete(id)
       .success(function(data) {
         data.reverse();
@@ -46,7 +47,10 @@
 
   function HomeController($scope, $http) {}
 
-  function ProfileController($scope, $http) {}
+  function ProfileController($scope, $http, AuthService) {
+    var vm = this;
+    vm.username = AuthService.currentUser().username;
+  }
 
   function RegisterController($scope, $http, UserService) {
     var vm = this;
@@ -100,7 +104,10 @@
     }
 
     function MenuController ($scope, $location, AuthService) {
-      $scope.isLoggedIn = AuthService.isLoggedIn();
+
+      $scope.isLoggedIn = function () {
+        return AuthService.isLoggedIn();
+      };         
 
       $scope.getClass = function (page) {
         var currentRoute = $location.path().substring(1) || 'home';
