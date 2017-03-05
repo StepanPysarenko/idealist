@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 app.use('/api', expressJwt({ secret: process.env.SECRET }).unless({ 
   path: [
-  	{ url: '/api/ideas', methods: ['GET', 'POST'] },
+	{ url: '/api/ideas', methods: ['GET', 'POST'] },
     { url: '/api/auth', methods: ['POST'] },
     { url: '/api/users', methods: ['POST'] }
   ] 

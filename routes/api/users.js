@@ -21,35 +21,43 @@ function getAllUsers(req, res) {
 
 
 function registerUser(req, res) {
-  db.query('SELECT * FROM users WHERE username=$1 LIMIT 1;', [req.body.username])
-  .on('end', function(result) {
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  
+  if(!re.test(req.body.email))
+    res.status(400).send({ message: 'Invalid email.' });
+  else {
 
-    var user = result.rows[0];
-    if(user) {
-      res.status(400).send({ message: 'Username is already taken.' });
-    } else {
+    db.query('SELECT * FROM users WHERE username=$1 LIMIT 1;', [req.body.username])
+    .on('end', function(result) {
 
-      bcrypt.hash(req.body.password, 10)
-      .then(function(hash) {
+      var user = result.rows[0];
+      if(user) {
+        res.status(400).send({ message: 'Username is already taken.' });
+      } else {
 
-        db.query(
-          'INSERT INTO users(username, email, password) VALUES ($1, $2, $3)', 
-          [req.body.username, req.body.email, hash]
-        )
-        .on('end', function(result) {
-          res.status(200).send();
+        bcrypt.hash(req.body.password, 10)
+        .then(function(hash) {
+
+          db.query(
+            'INSERT INTO users(username, email, password) VALUES ($1, $2, $3)', 
+            [req.body.username, req.body.email, hash]
+            )
+          .on('end', function(result) {
+            res.status(200).send();
+          })
+          .on('error', function(err) {
+            res.status(400).send({ message: 'Invalid credentials.' });
+          });
+
         })
-        .on('error', function(err) {
-          res.status(400).send({ message: 'Invalid credentials.' });
-        });
 
-      })
+      } 
 
-    } 
+    })
+    .on('error', function(err) {
+      res.status(400).send();
+    });
 
-  })
-  .on('error', function(err) {
-    res.status(400).send();
-  });
+  }
 
 }

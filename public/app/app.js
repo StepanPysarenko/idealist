@@ -46,7 +46,7 @@
         controllerAs: 'vm'
       })
 
-    if(window.history && window.history.pushState){
+    if(window.history && window.history.pushState) {
       $locationProvider.html5Mode({
         enabled: true,
         requireBase: false

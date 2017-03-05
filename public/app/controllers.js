@@ -55,66 +55,61 @@
   function RegisterController($scope, $http, UserService) {
     var vm = this;
     vm.saveUser = saveUser;
-      // vm.user = {};
-      // vm.user.username = vm.user.password = 'jack';
-      // vm.user.email = 'jack@mail.com';
 
-      function saveUser() {
-        var isCorrect = vm.user.username != undefined 
-        && vm.user.password != undefined
-        && vm.user.email != undefined;
-        if (isCorrect) {
-          UserService.create(vm.user)
-          .success(function(data) {
-            vm.user = {};
-            alert("User successfully saved");
-          });
-        }
-      }
-
-    }
-
-    function LoginController($location, AuthService) {
-      var vm = this;
-      vm.login = login;
-      vm.username = vm.password = 'test';
-      // initController();
-
-      // function initController() {
-      //   AuthService.logout();
-      // };
-
-      function login() {
-        vm.loading = true;
-        AuthService.login(vm.username, vm.password, function (result) {
-          if (result === true) {
-            $location.path('/');
-          } else {
-            vm.error = 'Username or password is incorrect';
-            vm.loading = false;
-          }
+    function saveUser() {
+      var isCorrect = vm.user.username != undefined 
+      && vm.user.password != undefined
+      && vm.user.email != undefined;
+      if (isCorrect) {
+        UserService.create(vm.user)
+        .success(function(data) {
+          vm.user = {};
+          alert("User successfully saved");
+        })
+        .error(function(err) {
+          alert(err.message);
         });
-      };
-
+      }
     }
 
-    function LogoutController($location, AuthService) {
-      AuthService.logout();
-      $location.path('/home');
-    }
+  }
 
-    function MenuController ($scope, $location, AuthService) {
+  function LoginController($location, AuthService) {
+    var vm = this;
+    vm.login = login;
+    vm.username = vm.password = 'test';
 
-      $scope.isLoggedIn = function () {
-        return AuthService.isLoggedIn();
-      };         
+    function login() {
+      vm.loading = true;
+      AuthService.login(vm.username, vm.password, function (result) {
+        if (result === true) {
+          $location.path('/');
+        } else {
+          vm.error = 'Username or password is incorrect';
+          vm.loading = false;
+        }
+      });
+    };
 
-      $scope.getClass = function (page) {
-        var currentRoute = $location.path().substring(1) || 'home';
-        return page === currentRoute ? 'active' : '';
-      };   
+  }
 
-    }
+  function LogoutController($location, AuthService) {
+    AuthService.logout();
+    $location.path('/home');
+  }
 
-  })();
+  function MenuController ($scope, $location, AuthService) {
+
+    $scope.isLoggedIn = function () {
+      return AuthService.isLoggedIn();
+    };         
+
+    $scope.getClass = function (page) {
+      var currentRoute = $location.path().substring(1) || 'home';
+      return page === currentRoute ? 'active' : '';
+    };   
+
+  }
+
+})();
 
