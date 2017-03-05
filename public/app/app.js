@@ -33,7 +33,18 @@
         templateUrl: 'partials/login.html',
         controller: 'LoginController',
         controllerAs: 'vm'
-      });
+      })
+      .state('logout', {
+        url: '/logout',
+        templateUrl: '',
+        controller: 'LogoutController',
+      })
+      .state('profile', {
+        url: '/profile',
+        templateUrl: 'partials/profile.html',
+        controller: 'ProfileController',
+        controllerAs: 'vm'
+      })
 
     if(window.history && window.history.pushState){
       $locationProvider.html5Mode({
