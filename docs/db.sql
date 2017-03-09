@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS users (
   username varchar NOT NULL,
   email varchar NOT NULL,
   password varchar NOT NULL,
-  created timestamp DEFAULT current_timestamp
+  created timestamp DEFAULT current_timestamp,
+  deleted boolean NOT NULL DEFAULT false
 );
 
 INSERT INTO ideas(text) VALUES

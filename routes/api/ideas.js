@@ -10,7 +10,7 @@ router.delete('/:id', deleteIdea);
 module.exports = router;
 
 function getIdeas(req, res) {
-  db.query('SELECT * FROM ideas ORDER BY id ASC;')
+  db.query('SELECT * FROM ideas WHERE deleted=false ORDER BY id ASC;')
   .on('end', function(result) {
     res.status(200).send(result.rows);
   })
@@ -34,7 +34,7 @@ function createIdea(req, res) {
 }
 
 function deleteIdea(req, res) {
-  db.query('DELETE FROM ideas WHERE id=$1;', [req.params.id])
+  db.query('UPDATE ideas SET deleted=true WHERE id=$1;', [req.params.id])
   .on('end', function(result) {
     getIdeas(req, res);
   })

@@ -32,20 +32,12 @@
   function AuthService($http, $localStorage) {
     var service = {};
 
-    service.login = login;
-    service.logout = logout;
-    service.isLoggedIn = isLoggedIn;
-    service.currentUser = currentUser;
-
-    return service;
-
-    function login(username, password, callback) {
-
+    service.login = function(username, password, callback) {
       $http.post('api/auth', { username: username, password: password })
       .success(function (response) {
 
         $localStorage.currentUser = { username: username, token: response.token };
-        $http.defaults.headers.common.Authorization = 'Bearer ' + response.token;
+        setHeaders();
 
         callback(true);
       }).error(function(data) {
@@ -53,18 +45,24 @@
       });
     }
 
-    function logout() {
+    service.setHeaders = function() {
+      $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
+    }
+
+    service.logout = function() {
       delete $localStorage.currentUser;
       $http.defaults.headers.common.Authorization = '';
     }
 
-    function isLoggedIn() {
+    service.isLoggedIn = function() {
       return !!$localStorage.currentUser;
     }
 
-    function currentUser() {
+    service.currentUser = function() {
       return $localStorage.currentUser;
-    }
+    }    
+
+    return service;
 
   }
 

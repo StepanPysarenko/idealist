@@ -56,9 +56,8 @@
   }
 
   function run($rootScope, $http, $location, AuthService) {
-    if (AuthService.isLoggedIn()) {
-      $http.defaults.headers.common.Authorization = 'Bearer ' + AuthService.currentUser().token;
-    }
+    if (AuthService.isLoggedIn())
+      AuthService.setHeaders();
 
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
       var restrictedPagesLoggedIn = ['/login', '/register'];
@@ -75,3 +74,6 @@
   }
 
 })();
+
+// TODO
+// error messages on register and login
