@@ -62,13 +62,13 @@
       && vm.user.email != undefined;
       if (isCorrect) {
         UserService.create(vm.user)
-        .success(function(data) {
-          vm.user = {};
-          alert("User successfully saved");
-        })
-        .error(function(err) {
-          alert(err.message);
-        });
+          .success(function(data) {
+            vm.user = {};
+            alert("User successfully saved");
+          })
+          .error(function(err) {
+            alert(err.message);
+          });
       }
     }
 

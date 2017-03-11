@@ -30,39 +30,39 @@
   }
 
   function AuthService($http, $localStorage) {
-    var service = {};
+    var authService = {};
 
-    service.login = function(username, password, callback) {
+    authService.login = function(username, password, callback) {
       $http.post('api/auth', { username: username, password: password })
-      .success(function (response) {
+        .success(function (response) {
 
-        $localStorage.currentUser = { username: username, token: response.token };
-        setHeaders();
+          $localStorage.currentUser = { username: username, token: response.token };
+          authService.setHeaders();
 
-        callback(true);
-      }).error(function(data) {
-        callback(false);
-      });
+          callback(true);
+        }).error(function(data) {
+          callback(false);
+        });
     }
 
-    service.setHeaders = function() {
+    authService.setHeaders = function() {
       $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
     }
 
-    service.logout = function() {
+    authService.logout = function() {
       delete $localStorage.currentUser;
       $http.defaults.headers.common.Authorization = '';
     }
 
-    service.isLoggedIn = function() {
+    authService.isLoggedIn = function() {
       return !!$localStorage.currentUser;
     }
 
-    service.currentUser = function() {
+    authService.currentUser = function() {
       return $localStorage.currentUser;
     }    
 
-    return service;
+    return authService;
 
   }
 
