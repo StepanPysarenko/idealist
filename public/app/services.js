@@ -12,8 +12,8 @@
       get : function() {
         return $http.get('/api/ideas');
       },
-      create : function(ideaData) {
-        return $http.post('/api/ideas', ideaData);
+      create : function(idea) {
+        return $http.post('/api/ideas', idea);
       },
       delete : function(id) {
         return $http.delete('/api/ideas/' + id);
@@ -35,10 +35,8 @@
     authService.login = function(username, password, callback) {
       $http.post('api/auth', { username: username, password: password })
         .success(function (response) {
-
           $localStorage.currentUser = { username: username, token: response.token };
           authService.setHeaders();
-
           callback(true);
         }).error(function(data) {
           callback(false);

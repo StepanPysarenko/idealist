@@ -45,7 +45,9 @@
 
   }
 
-  function HomeController($scope, $http) {}
+  function HomeController($scope, $http) {
+
+  }
 
   function ProfileController($scope, $http, AuthService) {
     var vm = this;
@@ -57,6 +59,7 @@
     vm.saveUser = saveUser;
 
     function saveUser() {
+      vm.loading = true;
       var isCorrect = vm.user.username != undefined 
       && vm.user.password != undefined
       && vm.user.email != undefined;
@@ -64,10 +67,11 @@
         UserService.create(vm.user)
           .success(function(data) {
             vm.user = {};
-            alert("User successfully saved");
+            vm.success = data.message;
           })
           .error(function(err) {
-            alert(err.message);
+            vm.loading = false;
+            vm.error = err.message;
           });
       }
     }

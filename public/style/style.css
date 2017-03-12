@@ -64,7 +64,7 @@ body {
 
 .main {
   clear: both; 
-  /*min-height: 400px;*/
+  min-height: 400px;
   flex: 1;
 }
 
@@ -75,7 +75,7 @@ body {
   margin-bottom: 20px;
   padding-top: 10px;
   border-top: 1px solid #000000;
-  bottom: 0;
+  font-size: 14px;
 }
 
 .list-inline {
@@ -178,4 +178,3 @@ h1, h2, h3, h4, h5, h6 {
   word-wrap: break-word;
   cursor: pointer;
 }
-

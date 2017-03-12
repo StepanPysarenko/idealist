@@ -31,7 +31,7 @@ function registerUser(req, res) {
             [req.body.username, req.body.email, hash]
             )
           .on('end', function(result) {
-            res.status(200).send();
+            res.status(200).send({ message: 'User successfully registered.' });
           })
           .on('error', function(err) {
             res.status(400).send({ message: 'Invalid credentials.' });
