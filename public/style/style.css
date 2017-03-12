@@ -31,9 +31,8 @@ body {
 }
 
 .container-main {
-  padding: 0;
+  padding: 0 10px;
   max-width: 750px; 
-  /*min-height: 100%;*/
   display: flex;
   min-height: 100vh;
   flex-direction: column;
@@ -65,6 +64,7 @@ body {
 
 .main {
   clear: both; 
+  /*min-height: 400px;*/
   flex: 1;
 }
 
@@ -132,17 +132,12 @@ body {
     line-height: 30px;
   }
 
-  .list-inline li.active{
+  .list-inline li.active {
     border-bottom: none;
     border-left: 2px solid #000000;
     border-right: 2px solid #000000;
     font-weight: bold;
   }
-
-  .list-inline .glyphicon {
-    display: none;
-  }
-
 }
 
 form#new-idea textarea {
