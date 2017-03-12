@@ -4,21 +4,9 @@ var router = express.Router();
 var db = require('db');
 var bcrypt = require('bcrypt');
 
-router.get('/', getAllUsers);
 router.post('/', registerUser);
 
 module.exports = router;
-
-function getAllUsers(req, res) {
-  db.query('SELECT * FROM users ORDER BY id ASC;')
-  .on('end', function(result) {
-    res.status(200).send(result.rows);
-  })
-  .on('error', function(err) {
-    res.status(404).send();
-  });
-};
-
 
 function registerUser(req, res) {
   var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

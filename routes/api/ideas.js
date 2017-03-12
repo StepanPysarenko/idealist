@@ -3,13 +3,13 @@ var express = require('express');
 var router = express.Router();
 var db = require('db');
 
-router.get('/', getAllIdeas);
+router.get('/', getIdeas);
 router.post('/', createIdea);
 router.delete('/:id', deleteIdea);
 
 module.exports = router;
 
-function getIdeas(req, res) {
+function getAllIdeas(req, res) {
   db.query('SELECT * FROM ideas WHERE deleted=false ORDER BY id ASC;')
   .on('end', function(result) {
     res.status(200).send(result.rows);
@@ -19,14 +19,14 @@ function getIdeas(req, res) {
   });
 };
 
-function getAllIdeas(req, res) {
-  getIdeas(req, res);
+function getIdeas(req, res) {
+  getAllIdeas(req, res);
 }
 
 function createIdea(req, res) {
   db.query('INSERT INTO ideas(text) VALUES ($1);', [req.body.text])
   .on('end', function(data) {
-    getIdeas(req, res);
+    getAllIdeas(req, res);
   })
   .on('error', function(err) {
     res.status(404).send();
@@ -36,7 +36,7 @@ function createIdea(req, res) {
 function deleteIdea(req, res) {
   db.query('UPDATE ideas SET deleted=true WHERE id=$1;', [req.params.id])
   .on('end', function(result) {
-    getIdeas(req, res);
+    getAllIdeas(req, res);
   })
   .on('error', function(err) {
     res.status(404).send();

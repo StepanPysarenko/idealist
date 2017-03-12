@@ -3,9 +3,9 @@
 
   angular
   .module('app')
-  .factory('IdeaService', IdeaService)
-  .factory('UserService', UserService)
-  .factory('AuthService', AuthService);
+  .service('IdeaService', IdeaService)
+  .service('UserService', UserService)
+  .service('AuthService', AuthService);
 
   function IdeaService($http) {
     return {
