@@ -13,9 +13,10 @@ app.use(bodyParser.json());
 
 app.use('/api', expressJwt({ secret: process.env.SECRET }).unless({ 
   path: [
-	{ url: '/api/ideas', methods: ['GET', 'POST'] },
-    { url: '/api/auth', methods: ['POST'] },
-    { url: '/api/users', methods: ['POST'] }
+  { url: '/api/ideas', methods: ['GET', 'POST'] },
+  { url: '/api/auth', methods: ['POST'] },
+  { url: '/api/users', methods: ['POST'] },
+  { url: '/api/categories', methods: ['GET'] },
   ] 
 }));
 
@@ -30,6 +31,7 @@ app.use('/', require('./routes/index'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/ideas', require('./routes/api/ideas'));
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/categories', require('./routes/api/categories'));
 
 app.all('*', function(req, res) {
   res.redirect('/');
@@ -39,7 +41,3 @@ var port = process.env.PORT;
 var server = app.listen(port, function () {
   console.log("App is listening on port " + port);
 });                      
-
-// TODO
-// html5 routing
-// check email pattern on registration

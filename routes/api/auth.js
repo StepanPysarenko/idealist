@@ -12,7 +12,7 @@ router.get('/decoded', tokenDecoded);
 module.exports = router;
 
 function authenticateUser(req, res) {
-  db.query('SELECT * FROM users WHERE username=$1 LIMIT 1;', [req.body.username])
+  db.query('SELECT * FROM account WHERE username=$1 LIMIT 1;', [req.body.username])
   .on('end', function(result) {
     var user = result.rows[0];
     if (user) {

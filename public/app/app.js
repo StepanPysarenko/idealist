@@ -63,8 +63,7 @@
       var restrictedPagesLoggedIn = ['/login', '/register'];
       var restrictedPagesGuest = ['/profile'];
 
-      var isRestricted = 
-        ( AuthService.isLoggedIn() && restrictedPagesLoggedIn.indexOf($location.path()) > -1 )
+      var isRestricted = ( AuthService.isLoggedIn() && restrictedPagesLoggedIn.indexOf($location.path()) > -1 )
         || ( !AuthService.isLoggedIn() && restrictedPagesGuest.indexOf($location.path()) > -1 );
       
       if (isRestricted) {
@@ -74,6 +73,3 @@
   }
 
 })();
-
-// TODO
-// error messages on register and login

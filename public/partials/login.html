@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-6 col-sm-offset-3">
     <h3>Log in</h3>
-    <form name="form" ng-submit="form.$valid && vm.login()" novalidate>
+    <form name="form" ng-submit="vm.login()" novalidate>
 
       <div class="form-group">
         <label for="username">Username</label>
@@ -18,7 +18,7 @@
         <img ng-if="vm.loading" src="style/spinner.gif" />
       </div>
 
-      <div ng-if="vm.error" class="alert alert-danger">{{vm.error}}</div>
+      <div ng-show="vm.error" class="alert alert-danger">{{vm.error}}</div>
       
     </form>
   </div>

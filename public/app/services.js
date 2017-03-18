@@ -2,10 +2,11 @@
   'use strict';
 
   angular
-  .module('app')
-  .service('IdeaService', IdeaService)
-  .service('UserService', UserService)
-  .service('AuthService', AuthService);
+    .module('app')
+    .service('IdeaService', IdeaService)
+    .service('CategoryService', CategoryService)
+    .service('UserService', UserService)
+    .service('AuthService', AuthService);
 
   function IdeaService($http) {
     return {
@@ -17,6 +18,14 @@
       },
       delete : function(id) {
         return $http.delete('/api/ideas/' + id);
+      }
+    }
+  }
+
+  function CategoryService($http) {
+    return {
+      get : function() {
+        return $http.get('/api/categories');
       }
     }
   }

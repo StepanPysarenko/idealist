@@ -1,22 +1,33 @@
-<div class="row">
-  <div class="col-sm-8 col-sm-offset-2">
+<h3>Create a new idea</h3>
 
-    <form id="new-idea">
-      <h3>Create a new idea</h3>
-      <h5 class="text-muted">Contribute to the public list of random ideas</h5>
-      <div class="form-group">
-        <textarea ng-model="vm.idea.text" required></textarea>
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-default pull-right" ng-click="vm.createIdea()">Publish!</button>
-      </div>
-    </form>
+<form id="new-idea" ng-hide="vm.success" ng-submit="vm.createIdea()">
 
-    <div class="clearfix"></div>
-
-    <div class="idea-list">
-      <div class="idea" ng-repeat="idea in vm.ideas" ng-click="vm.deleteIdea(idea.id)">{{ idea.text }}</div>
-    </div>
-
+  <div class="form-group">
+  <label for="ideaName">Name</label>
+    <input type="text" class="form-control" id="ideaName" ng-model="vm.idea.name" required>
   </div>
-</div>
+
+  <div class="form-group">
+    <label for="categoryName">Category</label>
+    <select class="form-control" id="categoryName" ng-model="vm.idea.category" required>
+      <option ng-repeat="category in vm.categories" value="{{ category.id }}">{{ category.name }}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="ideaDescription">Description</label>
+    <textarea id="ideaDescription" ng-model="vm.idea.description" rows="5" required></textarea>
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-default">Submit</button>
+    <img ng-if="vm.loading" src="style/spinner.gif" />
+  </div>
+
+  <div class="clearfix"></div>
+
+  <div ng-show="vm.error" class="alert alert-danger">{{vm.error}}</div>
+
+</form>
+
+<div ng-show="vm.success" class="alert alert-success">{{vm.success}}</div>
