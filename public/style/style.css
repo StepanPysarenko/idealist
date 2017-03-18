@@ -64,7 +64,7 @@ body {
 
 .main {
   clear: both; 
-  min-height: 400px;
+  min-height: 350px;
   flex: 1;
 }
 
