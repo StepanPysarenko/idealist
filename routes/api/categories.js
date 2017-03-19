@@ -8,7 +8,7 @@ router.get('/', getCategories);
 module.exports = router;
 
 function getCategories(req, res) {
-  db.query('SELECT category_id as id, name FROM category ORDER BY category_id ASC;')
+  db.query('SELECT category_id as id, name FROM category ORDER BY name ASC;')
     .on('end', function(result) {
       res.status(200).send(result.rows);
     })

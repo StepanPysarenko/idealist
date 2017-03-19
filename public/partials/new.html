@@ -1,10 +1,10 @@
-<h3>Create a new idea</h3>
+<h3>Create new idea</h3>
 
 <form id="new-idea" ng-hide="vm.success" ng-submit="vm.createIdea()">
 
   <div class="form-group">
   <label for="ideaName">Name</label>
-    <input type="text" class="form-control" id="ideaName" ng-model="vm.idea.name" required>
+    <input type="text" class="form-control" id="ideaName" ng-model="vm.idea.name" maxlength="50" required>
   </div>
 
   <div class="form-group">
@@ -16,7 +16,7 @@
 
   <div class="form-group">
     <label for="ideaDescription">Description</label>
-    <textarea id="ideaDescription" ng-model="vm.idea.description" rows="5" required></textarea>
+    <textarea id="ideaDescription" ng-model="vm.idea.description" rows="5" maxlength="1000" required></textarea>
   </div>
 
   <div class="form-group">

@@ -43,7 +43,6 @@
 
     IdeaService.get()
     .success(function(data) {
-      console.log(JSON.stringify(data));
       vm.ideas = data;
     });
 
@@ -87,38 +86,38 @@
   function LoginController($location, AuthService) {
     var vm = this;
     vm.login = login;
-vm.username = vm.password = 'test'; // debug only
+    vm.username = vm.password = 'test'; // debug only
 
-function login() {
-  vm.loading = true;
-  AuthService.login(vm.username, vm.password, function (result) {
-    if (result === true) {
-      $location.path('/');
-    } else {
-      vm.error = 'Username or password is incorrect';
-      vm.loading = false;
-    }
-  });
-};
+    function login() {
+      vm.loading = true;
+      AuthService.login(vm.username, vm.password, function (result) {
+        if (result === true) {
+          $location.path('/');
+        } else {
+          vm.error = 'Username or password is incorrect';
+          vm.loading = false;
+        }
+      });
+    };
 
-}
+  }
 
-function LogoutController($location, AuthService) {
-  AuthService.logout();
-  $location.path('/home');
-}
+  function LogoutController($location, AuthService) {
+    AuthService.logout();
+    $location.path('/home');
+  }
 
-function MenuController ($scope, $location, AuthService) {
+  function MenuController ($scope, $location, AuthService) {
 
-  $scope.isLoggedIn = function () {
-    return AuthService.isLoggedIn();
-  };         
+    $scope.isLoggedIn = function () {
+      return AuthService.isLoggedIn();
+    };         
 
-  $scope.getClass = function (page) {
-    var currentRoute = $location.path().substring(1) || 'home';
-    return page === currentRoute ? 'active' : '';
-  };   
+    $scope.getClass = function (page) {
+      var currentRoute = $location.path().substring(1) || 'home';
+      return page === currentRoute ? 'active' : '';
+    };   
 
-}
+  }
 
 })();

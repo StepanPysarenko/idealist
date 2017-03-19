@@ -17,15 +17,27 @@ html {
   min-height: 100%;
 }
 
-textarea, input {
+textarea, input, button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  border: 1px solid #cccccc;
+}
+
+textarea {
+  width: 100%;
+  resize: none;
+  font-size: 15px; 
+  padding: 10px;
+  outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-transform: uppercase;
 }
 
 body {
   background: #ffffff;
-  /*background: #fafafa;*/
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   line-height: 1.8em;
@@ -39,16 +51,14 @@ body {
   flex-direction: column;
 }
 
-.header {
-  height: 50px;
-  height: auto;
+#header {
   margin-top: 20px;
   margin-bottom: 15px;
   padding: 0;
   text-align: center;
 }
 
-.header .logo
+#header > #logo
 {
   display: block;
   height: auto;
@@ -58,33 +68,33 @@ body {
   text-transform: uppercase;
 }
 
-.menu {
+#menu {
   border-bottom: 1px solid #000000;
   margin-bottom: 40px;
 }
 
-.main {
+#main {
   clear: both; 
   flex: 1;
 }
 
-.footer {
-  height: 40px;
+#footer {
   width: 100%;
   margin-top: 40px;
   margin-bottom: 20px;
-  padding-top: 10px;
+  padding: 10px 0;
   border-top: 1px solid #cccccc;
   font-size: 14px;
+  color: #777777;
 }
 
-.list-inline {
+#menu > ul {
   display: flex;
   margin: 0;
   text-transform: uppercase;
 }
 
-.list-inline a {
+#menu > ul a {
   flex: 1;
   color: black;
   text-decoration: none;
@@ -93,7 +103,7 @@ body {
   -webkit-transition: all .25s linear;
 }
 
-.list-inline li {
+#menu > ul li {
   height: 40px;
   padding: 0; 
   margin: 0;
@@ -103,69 +113,48 @@ body {
   text-transform: uppercase;
 }
 
-.list-inline li.active{
+#menu > ul li.active{
   border-bottom: 2px solid #000000;
 }
 
 
 @media not screen and (max-width: 500px) {
-  .list-inline a:hover{
+  #menu > ul a:hover{
     background: #f2f2f2;
   }
 }
 
 @media screen and (max-width: 500px) {
-  .list-inline {
+  #menu > ul {
     display: block;
     width: 100%;
     padding-bottom: 15px;
   }
 
-  .list-inline a {
+  #menu > ul a {
     flex: none;
     display: block;
     width: 100%;
   }
 
-  .list-inline li {
+  #menu > ul li {
     height: 30px;
     line-height: 30px;
   }
 
-  .list-inline li.active {
+  #menu > ul li.active {
     border-bottom: none;
     border-left: 2px solid #000000;
     border-right: 2px solid #000000;
     font-weight: bold;
   }
-
-  .main {
-    min-height: 350px;
-  }
 }
 
-textarea {
-  width: 100%;
-  resize: none;
-  font-size: 15px;
-  border: 1px solid #cccccc;
-  padding: 10px;
-  outline: none;
-}
-
-button {
-  border: 1px solid #cccccc;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  text-transform: uppercase;
-}
-
-.idea-list {
+.list-ideas {
   margin-top: 30px;
 }
 
-.idea-list .idea {
+.list-ideas > .idea {
   padding: 10px 0;
   margin-top: 15px;
   box-sizing: border-box;
@@ -173,24 +162,26 @@ h1, h2, h3, h4, h5, h6 {
   cursor: default;
 }
 
-.idea-list .idea .name {
+.list-ideas > .idea > .title {
   font-size: 14px;
   float: left;
-  color: #777;
+  color: #777777;
+  word-break: break-all;
 }
 
-.idea-list .idea .category {
+.list-ideas > .idea > .title > .category {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.list-ideas > .idea > .datetime {
   font-size: 14px;
   float: right;
   color: #777;
 }
 
-.idea-list .idea .description {
-  border-top: 1px solid #cccccc;
-  padding-top: 8px;
+.list-ideas > .idea > .description {
+  /*border-top: 1px solid #cccccc;*/
+  /*padding-top: 8px;*/
   clear: both;
 }
-
-/*.idea-list .idea:not(:last-child) {
-border-bottom: 1px solid #cccccc;
-}*/

@@ -10,7 +10,12 @@ router.delete('/:id', deleteIdea);
 module.exports = router;
 
 function getIdeas(req, res) {
-  const queryString = `SELECT i.idea_id as id, i.name, i.description, c.name as category 
+  const queryString = `SELECT 
+      i.idea_id as id, 
+      i.name, 
+      i.description,
+      i.created_at,
+      c.name as category 
     FROM idea i INNER JOIN category c
     ON i.category_id=c.category_id
     WHERE is_deleted=false 

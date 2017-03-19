@@ -18,11 +18,11 @@
 
   <div class="container container-main">
 
-    <div class="header">
-      <span class="logo">IDEALIST</span>
+    <div id="header">
+      <span id="logo">IDEALIST</span>
     </div>
 
-    <div class="menu clearfix">
+    <div id="menu" class="clearfix">
       <ul class="list-inline" ng-controller="MenuController">
         <a href='home'><li ng-class="getClass('home')">Home</li></a>
         <a href='new'><li ng-class="getClass('new')">New</li></a>
@@ -33,9 +33,9 @@
       </ul>
     </div>
 
-    <div class="main" ui-view></div>
+    <div id="main" ui-view></div>
 
-    <div class="footer text-muted">
+    <div id="footer">
       <span class="pull-left">© 2017 Stepan Pysarenko</span>
       <span class="pull-right">Test project</span>
     </div>
