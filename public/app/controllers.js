@@ -51,7 +51,6 @@
         return;
       IdeaService.delete(id)
       .success(function(data) {
-        data.reverse();
         vm.ideas = data;
       });
     };
