@@ -7,7 +7,7 @@
 <div class="list-ideas">
   <div class="idea" ng-repeat="idea in vm.ideas" ng-dblclick="vm.deleteIdea(idea.id)">  
     <div class="title">
-      <span class="category">{{ idea.category }}</span>&nbsp;/&nbsp;<span class="name">{{ idea.name }}</span>
+      <span class="category">{{ idea.category_name }}</span>&nbsp;/&nbsp;<span class="name">{{ idea.name }}</span>
     </div>
     <div class="description">{{ idea.description }}</div>
   </div>

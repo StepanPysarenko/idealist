@@ -9,36 +9,35 @@ router.post('/', registerUser);
 module.exports = router;
 
 function registerUser(req, res) {
-  var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  
-  if(!emailRegex.test(req.body.email))
-    res.status(400).send({ message: 'Invalid email.' });
-  else {
+  var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+  // var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; //Minimum 8 characters at least 1 Alphabet and 1 Number
+  //var errors = {};
 
+  if(!emailRegex.test(req.body.email)) {
+    res.status(400).send({ message: 'Invalid email.' });
+  } else {
     db.query('SELECT * FROM account WHERE username=$1 LIMIT 1;', [req.body.username])
       .on('end', function(result) {
-        var user = result.rows[0];
-        if(user) {
+        if(result.length > 0) {
           res.status(400).send({ message: 'Username is already taken.' });
         } else {
-          bcrypt.hash(req.body.password, 10)
-            .then(function(hash) {
-              db.query('INSERT INTO account(username, email, password) VALUES ($1, $2, $3)',
-                [req.body.username, req.body.email, hash]
-              )
-                .on('end', function(result) {
-                  res.status(200).send({ message: 'User successfully registered.' });
-                })
-                .on('error', function(err) {
-                  res.status(400).send({ message: 'Invalid credentials.' });
-                });
-            })
+
+          bcrypt.hash(req.body.password, 10).then(function(hash) {
+            db.query('INSERT INTO account(username, email, password) VALUES ($1, $2, $3)',
+              [req.body.username, req.body.email, hash])
+              .on('end', function(result) {
+                res.status(200).send({ message: 'User successfully registered.' });
+              })
+              .on('error', function(err) {
+                res.status(500).send();
+              });
+          })
+
         } 
       })
       .on('error', function(err) {
-        res.status(400).send();
+        res.status(500).send();
       });
-
   }
 
 }

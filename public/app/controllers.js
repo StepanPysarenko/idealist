@@ -14,12 +14,7 @@
   function NewController($scope, $http, AuthService, IdeaService, CategoryService) {
     var vm = this;
 
-    IdeaService.get()
-    .success(function(data) {
-      vm.ideas = data;
-    });
-
-    CategoryService.get()
+    CategoryService.query()
     .success(function(data) {
       vm.categories = data;
     });
@@ -41,7 +36,7 @@
   function HomeController($scope, $http, IdeaService, AuthService) {
     var vm = this;
 
-    IdeaService.get()
+    IdeaService.query()
     .success(function(data) {
       vm.ideas = data;
     });

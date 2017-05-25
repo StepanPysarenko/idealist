@@ -8,17 +8,17 @@ CREATE TABLE IF NOT EXISTS account (
 );
 
 CREATE TABLE IF NOT EXISTS category (
-  category_id serial primary key,
+  id serial primary key,
   name varchar NOT NULL,
   created_at timestamp DEFAULT current_timestamp,
   deleted_at boolean NOT NULL DEFAULT false
 );
 
 CREATE TABLE IF NOT EXISTS idea (
-  idea_id serial primary key,
+  id serial primary key,
   name varchar,
   description varchar NOT NULL,
-  category_id integer REFERENCES category (category_id),
+  category_id integer REFERENCES category (id),
   created_at timestamp DEFAULT current_timestamp,
   updated_at timestamp DEFAULT current_timestamp,
   is_deleted boolean NOT NULL DEFAULT false

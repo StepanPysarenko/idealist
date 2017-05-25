@@ -30,7 +30,7 @@ function authenticateUser(req, res) {
     }   
   })
   .on('error', function(err) {
-    res.status(400).send({ message: 'Invalid credentials.' });
+    res.status(500).send();
   });
 }
 

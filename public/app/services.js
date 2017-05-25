@@ -10,8 +10,11 @@
 
   function IdeaService($http) {
     return {
-      get : function() {
+      query : function() {
         return $http.get('/api/ideas');
+      },
+      get : function() {
+        return $http.get('/api/ideas/' + id);
       },
       create : function(idea) {
         return $http.post('/api/ideas', idea);
@@ -24,7 +27,7 @@
 
   function CategoryService($http) {
     return {
-      get : function() {
+      query : function() {
         return $http.get('/api/categories');
       }
     }
