@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
-/*@import url('https://fonts.googleapis.com/css?family=Francois+One');*/
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
@@ -52,8 +51,8 @@ body {
 }
 
 #header {
-  margin: 20px 0;
-  padding: 0;
+  margin: 0;
+  padding: 20px 0;
   text-align: center;
 }
 
@@ -63,26 +62,27 @@ body {
   height: auto;
   font-size: 35px; 
   line-height: 50px;
-  /*font-family: 'Francois One', sans-serif;*/
   font-family: 'Open Sans', sans-serif;
   text-transform: uppercase;
 }
 
 #menu {
+  padding: 0;
+  margin: 0;
   border-bottom: 1px solid #000000;
-  margin-bottom: 40px;
+  
 }
 
 #main {
   clear: both; 
   flex: 1;
+  padding: 40px 0;
 }
 
 #footer {
   width: 100%;
-  margin-top: 40px;
-  margin-bottom: 20px;
-  padding: 10px 0;
+  margin: 0;
+  padding: 10px 0 20px 0;
   border-top: 1px solid #cccccc;
   font-size: 14px;
   color: #777777;
@@ -96,7 +96,7 @@ body {
 
 #menu > ul a {
   flex: 1;
-  color: #000000;
+  color: #333;
   text-decoration: none;
   transition: all .25s linear;
   -moz-transition: all .25s linear;
