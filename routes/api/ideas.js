@@ -36,9 +36,11 @@ function getIdeas(req, res) {
       c.name as category_name
     FROM idea i INNER JOIN category c
     ON i.category_id=c.id
-    /*WHERE is_deleted=false*/ 
+    --WHERE is_deleted=false
     ORDER BY i.created_at DESC
-    /*OFFSET $1 LIMIT $2*/;`
+    --OFFSET $1 LIMIT $2;`
+  
+  
 
   db.query(queryString, [offset, limit])
     .on('end', function(result) {
