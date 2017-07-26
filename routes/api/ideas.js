@@ -42,7 +42,7 @@ function getIdeas(req, res) {
   
   
 
-  db.query(queryString, [offset, limit])
+  db.query(queryString) //, [offset, limit])
     .on('end', function(result) {
       res.status(200).send(result.rows);
     })
