@@ -36,9 +36,9 @@ function getIdeas(req, res) {
       c.name as category_name
     FROM idea i INNER JOIN category c
     ON i.category_id=c.id
-    WHERE is_deleted=false 
+    /*WHERE is_deleted=false*/ 
     ORDER BY i.created_at DESC
-    OFFSET $1 LIMIT $2;`
+    /*OFFSET $1 LIMIT $2*/;`
 
   db.query(queryString, [offset, limit])
     .on('end', function(result) {
@@ -86,11 +86,12 @@ function createIdea(req, res) {
 }
 
 function deleteIdea(req, res) {
-  db.query('UPDATE idea SET is_deleted=true WHERE id=$1;', [req.params.id])
+  res.status(200).send();
+  /*db.query('UPDATE idea SET is_deleted=true WHERE id=$1;', [req.params.id])
     .on('end', function(result) {
       getIdeas(req, res);
     })
     .on('error', function(err) {
       res.status(500).send();
-    });
+    });*/
 }
