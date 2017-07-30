@@ -1,14 +1,15 @@
-<h3>Welcome!</h3>
+<h2>Ideas</h2>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta.</p>
+<p>Take a while to enjoy the power of idea.</p>
 
 <div class="clearfix"></div>
 
 <div class="list-ideas">
   <div class="idea" ng-repeat="idea in vm.ideas" ng-dblclick="vm.deleteIdea(idea.id)">  
-    <div class="title">
-      <span class="category">{{ idea.category_name }}</span>&nbsp;/&nbsp;<span class="name">{{ idea.name }}</span>
+    <div class="title">{{ idea.category_name }}&nbsp;/&nbsp;{{ idea.name }}</div>
+    <div class="info">
+      Created by <span class="author">{{ idea.author_name || "Annonymus" }}</span> at {{ idea.created_at | date:'HH:mm MM/dd' }}
     </div>
-    <div class="description">{{ idea.description }}</div>
+    <div class="description">{{ idea.description }}</div>   
   </div>
 </div>

@@ -42,12 +42,13 @@
     });
 
     vm.deleteIdea = function(id) {
-      if(!AuthService.isLoggedIn())
-        return;
-      IdeaService.delete(id)
-      .success(function(data) {
-        vm.ideas = data;
-      });
+      return;
+      // if(!AuthService.isLoggedIn())
+      //   return;
+      // IdeaService.delete(id)
+      // .success(function(data) {
+      //   vm.ideas = data;
+      // });
     };
 
   }

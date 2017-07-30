@@ -13,8 +13,16 @@ function registerUser(req, res) {
   // var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; //Minimum 8 characters at least 1 Alphabet and 1 Number
   //var errors = {};
 
-  if(!emailRegex.test(req.body.email)) {
+  var forbiddenUsernames = ['annonymus', 'user'];
+
+  if(forbiddenUsernames.indexOf(req.body.username) > -1) {
+
+    res.status(400).send({ message: 'Username is forbidden.' });
+
+  } else if(!emailRegex.test(req.body.email)) {
+
     res.status(400).send({ message: 'Invalid email.' });
+
   } else {
     db.query('SELECT * FROM account WHERE username=$1 LIMIT 1;', [req.body.username])
       .on('end', function(result) {

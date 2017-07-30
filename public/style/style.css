@@ -40,6 +40,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   line-height: 1.8em;
+  color: #333333;
 }
 
 .container-main {
@@ -96,7 +97,7 @@ body {
 
 #menu > ul a {
   flex: 1;
-  color: #333;
+  color: #333333;
   text-decoration: none;
   transition: all .25s linear;
   -moz-transition: all .25s linear;
@@ -156,32 +157,30 @@ body {
 
 .list-ideas > .idea {
   padding: 10px 0;
-  margin-top: 15px;
+  margin-bottom: 25px;
   box-sizing: border-box;
   word-wrap: break-word;
   cursor: default;
 }
 
 .list-ideas > .idea > .title {
-  font-size: 14px;
-  float: left;
-  color: #777777;
-  word-break: break-all;
-}
-
-.list-ideas > .idea > .title > .category {
   font-weight: bold;
   text-transform: uppercase;
+  word-break: break-all;
+  font-size: 20px;
 }
 
-.list-ideas > .idea > .datetime {
-  font-size: 14px;
-  float: right;
+.list-ideas > .idea > .info {
+  font-size: 13px;
   color: #777777;
+}
+
+.list-ideas > .idea > .info > .author {
+  font-weight: bold;
 }
 
 .list-ideas > .idea > .description {
-  /*border-top: 1px solid #cccccc;*/
+  /*border-bottom: 1px solid #eeeeee;*/
   /*padding-top: 8px;*/
   clear: both;
 }

@@ -1,4 +1,4 @@
-<h3>Create new idea</h3>
+<h2>Create new idea</h2>
 
 <form id="new-idea" ng-hide="vm.success" ng-submit="vm.createIdea()">
 
@@ -9,7 +9,7 @@
 
   <div class="form-group">
     <label for="categoryName">Category</label>
-    <select class="form-control" id="categoryName" ng-model="vm.idea.category" required>
+    <select class="form-control" id="categoryName" ng-model="vm.idea.category_id" required>
       <option ng-repeat="category in vm.categories" value="{{ category.id }}">{{ category.name }}</option>
     </select>
   </div>

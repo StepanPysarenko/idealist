@@ -1,27 +1,27 @@
 CREATE TABLE IF NOT EXISTS account (
-  account_id serial primary key,
+  id serial primary key,
   username varchar NOT NULL,
   email varchar NOT NULL,
   password varchar NOT NULL,
   created_at timestamp DEFAULT current_timestamp,
-  is_deleted boolean NOT NULL DEFAULT false
+  updated_at timestamp DEFAULT current_timestamp
 );
 
 CREATE TABLE IF NOT EXISTS category (
   id serial primary key,
   name varchar NOT NULL,
   created_at timestamp DEFAULT current_timestamp,
-  deleted_at boolean NOT NULL DEFAULT false
+  updated_at timestamp DEFAULT current_timestamp
 );
 
 CREATE TABLE IF NOT EXISTS idea (
   id serial primary key,
-  name varchar,
+  name NOT NULL varchar,
   description varchar NOT NULL,
+  author_id integer NULL REFERENCES account (id),
   category_id integer REFERENCES category (id),
   created_at timestamp DEFAULT current_timestamp,
-  updated_at timestamp DEFAULT current_timestamp,
-  is_deleted boolean NOT NULL DEFAULT false
+  updated_at timestamp DEFAULT current_timestamp
 );
 
 INSERT INTO category(name) VALUES

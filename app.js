@@ -11,14 +11,17 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+
 app.use('/api', expressJwt({ secret: process.env.SECRET }).unless({ 
   path: [
-  { url: '/api/ideas', methods: ['GET', 'POST'] },
-  { url: '/api/auth', methods: ['POST'] },
-  { url: '/api/users', methods: ['POST'] },
-  { url: '/api/categories', methods: ['GET'] },
+    { url: '/api/ideas', methods: ['GET', 'POST'] },
+    // { url: '/^\/api\/ideas\/([0-9]+)$/', methods: ['GET'] },
+    { url: '/api/auth', methods: ['POST'] },
+    { url: '/api/users', methods: ['POST'] },
+    { url: '/api/categories', methods: ['GET'] }  
   ] 
 }));
+// app.use('/api', expressJwt({ secret: process.env.SECRET, credentialsRequied: false }));
 
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
@@ -28,6 +31,10 @@ app.use(function (err, req, res, next) {
 
 app.use(express.static('./public'));
 app.use('/', require('./routes/index'));
+// app.use(function (req, res, next) {
+//   console.log(req.user);
+//   next();
+// });
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/ideas', require('./routes/api/ideas'));
 app.use('/api/users', require('./routes/api/users'));

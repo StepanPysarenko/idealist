@@ -11,7 +11,7 @@
   function IdeaService($http) {
     return {
       query : function() {
-        return $http.get('/api/ideas');
+        return $http.get('/api/ideas?limit=100');
       },
       get : function() {
         return $http.get('/api/ideas/' + id);
@@ -50,7 +50,8 @@
           $localStorage.currentUser = { username: username, token: response.token };
           authService.setHeaders();
           callback(true);
-        }).error(function(data) {
+        })
+        .error(function(data) {
           callback(false);
         });
     }
@@ -70,7 +71,7 @@
 
     authService.currentUser = function() {
       return $localStorage.currentUser;
-    }    
+    }
 
     return authService;
 

@@ -19,7 +19,10 @@ function authenticateUser(req, res) {
       bcrypt.compare(req.body.password, user.password)
         .then(function (equal) {
           if (equal) {
-            var token = jwt.sign({ 'sub' : user.username }, process.env.SECRET, { expiresIn: '1h' });
+            var token = jwt.sign({ 'sub' : user.id }, 
+              process.env.SECRET, 
+              { expiresIn: '1h' });
+            
             res.json({'token' : token});   
           } else {
             res.status(400).send({ message: 'Invalid credentials.' });
