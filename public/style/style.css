@@ -164,19 +164,23 @@ body {
 }
 
 .list-ideas > .idea > .title {
+  float: left;
+  width: 90%;
   font-weight: bold;
   text-transform: uppercase;
   word-break: break-all;
   font-size: 20px;
-  float: left;
+  padding-right: 10px;
 }
 
 .list-ideas > .idea > .rating {
-  float: right;
+  /*float: right;*/
+  margin-left: 90%;
   line-height: 20px;
+  text-align: right;
 }
 
-.list-ideas > .idea > .rating:hover {
+.list-ideas > .idea > .rating > span.glyphicon:hover {
   cursor: pointer;
 }
 
@@ -190,7 +194,6 @@ body {
   clear: both;
 }
 
-
 .list-ideas > .idea > .info > .time {
 
 }
@@ -200,12 +203,7 @@ body {
 }
 
 .list-ideas > .idea > .info > .author {
-  padding-left: 1em;
-  font-weight: bold;
-}
-
-.list-ideas > .idea > .info > .author {
-  padding-left: 1em;
+  /*padding-left: 1em;*/
   font-weight: bold;
 }
 
