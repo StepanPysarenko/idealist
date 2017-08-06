@@ -15,14 +15,14 @@
     var vm = this;
 
     CategoryService.query()
-    .success(function(data) {
-      vm.categories = data;
+    .success(function(result) {
+      vm.categories = result;
     });
 
     vm.createIdea = function() {
       vm.loading = true;
       IdeaService.create(vm.idea)
-      .success(function(data) {
+      .success(function(result) {
         vm.success = "Your idea was successfully submitted";           
       })
       .error(function(err) {
@@ -33,22 +33,56 @@
 
   }
 
-  function HomeController($scope, $http, IdeaService, AuthService) {
+  function HomeController($scope, $filter, $http, IdeaService, AuthService) {
     var vm = this;
 
     IdeaService.query()
-    .success(function(data) {
-      vm.ideas = data;
+    .success(function(result) {
+      vm.ideas = result;
     });
 
     vm.deleteIdea = function(id) {
-      return;
-      // if(!AuthService.isLoggedIn())
-      //   return;
-      // IdeaService.delete(id)
-      // .success(function(data) {
-      //   vm.ideas = data;
-      // });
+      if(!AuthService.isLoggedIn()) return;
+      IdeaService.delete(id)
+      .success(function(result) {
+        vm.ideas = result;
+      });
+    };
+
+    vm.starIdea = function(id) {
+      if(!AuthService.isLoggedIn()) return;
+
+      var idea = $filter("filter")(vm.ideas, {id: id})[0];
+
+      if(idea.is_starred) 
+      {
+        unstarIdeaItem(idea);
+        IdeaService.unstar(id)
+          .success(function(result) {
+            idea.rating = result.rating;
+          })
+          .error(function(err) {
+            starIdeaItem(idea);
+          });
+      } else {
+        starIdeaItem(idea);
+        IdeaService.star(id)
+          .success(function(result) {
+            idea.rating = result.rating;
+          })
+          .error(function(err) {
+            unstarIdeaItem(idea);
+          });
+      }
+
+      function starIdeaItem(idea) {
+        idea.is_starred = true;
+      }
+
+      function unstarIdeaItem(idea) {
+        idea.is_starred = false;
+      }
+      
     };
 
   }
@@ -66,9 +100,9 @@
       vm.loading = true;
 
       UserService.create(vm.user)
-      .success(function(data) {
+      .success(function(result) {
         vm.user = {};
-        vm.success = data.message;
+        vm.success = result.message;
       })
       .error(function(err) {
         vm.loading = false;

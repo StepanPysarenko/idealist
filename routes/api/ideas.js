@@ -8,10 +8,15 @@ router.get('/:id([0-9]+)', getIdea);
 router.post('/', createIdea);
 router.put('/:id([0-9]+)', updateIdea);
 router.delete('/:id([0-9]+)', deleteIdea);
+router.put('/:id([0-9]+)/star', starIdea);
+router.delete('/:id([0-9]+)/star', unstarIdea);
+
 
 module.exports = router;
 
 function getIdeas(req, res) {
+  var user_id = req.user ? req.user.sub : null;
+
   var page = parseInt(req.query.page, 10);
   if (isNaN(page) || page < 1) {
     page = 1;
@@ -37,14 +42,18 @@ function getIdeas(req, res) {
       i.description as description,
       i.created_at as created_at,
       c.name as category_name,
-      a.username as author_name
+      a.username as author_name,
+      (SELECT CAST(COUNT(*) AS INT) FROM star WHERE idea_id = i.id) as rating,
+      (CASE WHEN 
+        (SELECT COUNT(*) FROM star WHERE idea_id = i.id AND account_id = $1) > 0 
+        THEN TRUE ELSE FALSE END) as is_starred
     FROM idea i 
       INNER JOIN category c ON i.category_id = c.id
       LEFT JOIN account a ON i.author_id = a.id
     ORDER BY i.created_at DESC
-    OFFSET $1 LIMIT $2;` 
+    OFFSET $2 LIMIT $3;` 
 
-  db.query(queryString, [offset, limit])
+  db.query(queryString, [user_id, offset, limit])
     .on('end', function(result) {
       res.status(200).send(result.rows);
     })
@@ -61,7 +70,11 @@ function getIdea(req, res) {
       i.description as description,
       i.created_at as created_at,
       c.name as category_name,
-      a.username as author_name
+      a.username as author_name,
+      (SELECT CAST(COUNT(*) AS INT) FROM star WHERE idea_id = i.id) as rating,
+      (CASE WHEN 
+        (SELECT COUNT(*) FROM star WHERE idea_id = i.id AND account_id = $1) > 0 
+        THEN TRUE ELSE FALSE END) as is_starred
     FROM idea i 
       INNER JOIN category c ON i.category_id = c.id
       LEFT JOIN account a ON i.author_id = a.id
@@ -94,7 +107,7 @@ function createIdea(req, res) {
     user_id];
 
   db.query(queryString, queryParams)
-    .on('end', function(data) {
+    .on('end', function(result) {
       res.status(200).send();
     })
     .on('error', function(err) {
@@ -116,7 +129,7 @@ function updateIdea(req, res) {
     req.params.id];
 
   db.query(queryString, queryParams)
-    .on('end', function(data) {
+    .on('end', function(result) {
       res.status(200).send();
     })
     .on('error', function(err) {
@@ -125,11 +138,72 @@ function updateIdea(req, res) {
 }
 
 function deleteIdea(req, res) {
-  db.query('DELETE FROM idea WHERE id=$1;', [req.params.id])
-    .on('end', function(result) {
-      res.status(200).send();
-    })
-    .on('error', function(err) {
-      res.status(500).send();
-    });
+  if(!req.user) {
+    res.status(403).send();
+  } else {
+    res.status(501).send();
+    // db.query('DELETE FROM idea WHERE id=$1;', [req.params.id])
+    //   .on('end', function(result) {
+    //     res.status(200).send();
+    //   })
+    //   .on('error', function(err) {
+    //     res.status(500).send();
+    //   });
+  } 
+}
+
+function starIdea(req, res) {
+  if(!req.user) {
+    res.status(403).send();
+  } else {
+    const queryString = `INSERT INTO star(idea_id, account_id) VALUES ($1, $2);`
+    db.query(queryString, [req.params.id, req.user.sub])
+      .on('end', function(result) {
+        
+        const queryString = `SELECT CAST(COUNT(*) AS INT) FROM star WHERE idea_id = $1`
+        db.query(queryString, [req.params.id])
+          .on('end', function(result) {
+            res.status(200).send({ 'rating' : result.rows[0].count });
+          })
+          .on('error', function(err) {
+            res.status(500).send();
+          });
+
+      })
+      .on('error', function(err) {
+        if(err.code == 23505) { // "unique_violation" error code for pg
+          res.status(409).send("Idea has been already starred.");
+        } else {
+          res.status(500).send();
+        }    
+      });
+  }
+}
+
+function unstarIdea(req, res) {
+  if(!req.user) {
+    res.status(403).send();
+  } else {
+    const queryString = `DELETE FROM star WHERE idea_id = $1 AND account_id = $2;`
+    db.query(queryString, [req.params.id, req.user.sub])
+      .on('end', function(result) {
+        if(result.rowCount == 0) {
+          res.status(404).send();
+        } else {
+          
+          const queryString = `SELECT CAST(COUNT(*) AS INT) FROM star WHERE idea_id = $1`
+          db.query(queryString, [req.params.id])
+            .on('end', function(result) {
+              res.status(200).send({ 'rating' : result.rows[0].count });
+            })
+            .on('error', function(err) {
+              res.status(500).send();
+            });
+
+        } 
+      })
+      .on('error', function(err) {
+        res.status(500).send();
+      });
+  }
 }

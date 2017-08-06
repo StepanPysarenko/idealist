@@ -5,10 +5,13 @@
 <div class="clearfix"></div>
 
 <div class="list-ideas">
-  <div class="idea" ng-repeat="idea in vm.ideas" ng-dblclick="vm.deleteIdea(idea.id)">  
+  <div class="idea" ng-repeat="idea in vm.ideas">  
     <div class="title">{{ idea.category_name }}&nbsp;/&nbsp;{{ idea.name }}</div>
+    <div class="rating">
+    	<span ng-class="{'glyphicon glyphicon-star': idea.is_starred, 'glyphicon glyphicon-star-empty': !idea.is_starred}" ng-click="vm.starIdea(idea.id)" aria-hidden="true"></span>&nbsp;{{ idea.rating | number }}</div>
     <div class="info">
-      Created by <span class="author">{{ idea.author_name || "Annonymus" }}</span> at {{ idea.created_at | date:'HH:mm MM/dd' }}
+      <span class="time">{{ idea.created_at | date:'HH:mm MM/dd' }}</span>
+   	  <span class="author">{{ idea.author_name || "Annonymus" }}</span>
     </div>
     <div class="description">{{ idea.description }}</div>   
   </div>

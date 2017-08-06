@@ -12,16 +12,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-app.use('/api', expressJwt({ secret: process.env.SECRET }).unless({ 
-  path: [
-    { url: '/api/ideas', methods: ['GET', 'POST'] },
-    // { url: '/^\/api\/ideas\/([0-9]+)$/', methods: ['GET'] },
-    { url: '/api/auth', methods: ['POST'] },
-    { url: '/api/users', methods: ['POST'] },
-    { url: '/api/categories', methods: ['GET'] }  
-  ] 
-}));
-// app.use('/api', expressJwt({ secret: process.env.SECRET, credentialsRequied: false }));
+// app.use('/api', expressJwt({ secret: process.env.SECRET }).unless({ 
+//   path: [
+//     { url: '/api/ideas', methods: ['GET', 'POST'] },
+//     // { url: '/^\/api\/ideas\/([0-9]+)$/', methods: ['GET'] },
+//     { url: '/api/auth', methods: ['POST'] },
+//     { url: '/api/users', methods: ['POST'] },
+//     { url: '/api/categories', methods: ['GET'] }  
+//   ] 
+// }));
+app.use('/api', expressJwt({ secret: process.env.SECRET, credentialsRequired: false }));
 
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {

@@ -168,14 +168,44 @@ body {
   text-transform: uppercase;
   word-break: break-all;
   font-size: 20px;
+  float: left;
+}
+
+.list-ideas > .idea > .rating {
+  float: right;
+  line-height: 20px;
+}
+
+.list-ideas > .idea > .rating:hover {
+  cursor: pointer;
+}
+
+.list-ideas > .idea > .rating > .glyphicon {
+  font-size: 20px;
 }
 
 .list-ideas > .idea > .info {
   font-size: 13px;
   color: #777777;
+  clear: both;
+}
+
+
+.list-ideas > .idea > .info > .time {
+
+}
+
+.list-ideas > .idea > .info .glyphicon {
+  font-size: 0.85em;
 }
 
 .list-ideas > .idea > .info > .author {
+  padding-left: 1em;
+  font-weight: bold;
+}
+
+.list-ideas > .idea > .info > .author {
+  padding-left: 1em;
   font-weight: bold;
 }
 

@@ -21,6 +21,12 @@
       },
       delete : function(id) {
         return $http.delete('/api/ideas/' + id);
+      },
+      star : function(id) {
+        return $http.put('/api/ideas/' + id + '/star');
+      },
+      unstar : function(id) {
+        return $http.delete('/api/ideas/' + id + '/star');
       }
     }
   }

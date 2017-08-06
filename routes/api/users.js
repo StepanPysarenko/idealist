@@ -13,7 +13,7 @@ function registerUser(req, res) {
   // var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; //Minimum 8 characters at least 1 Alphabet and 1 Number
   //var errors = {};
 
-  var forbiddenUsernames = ['annonymus', 'user'];
+  var forbiddenUsernames = ['annonymus', 'admin', 'user'];
 
   if(forbiddenUsernames.indexOf(req.body.username) > -1) {
 
