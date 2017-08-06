@@ -15,21 +15,16 @@ function registerUser(req, res) {
 
   var forbiddenUsernames = ['annonymus', 'admin', 'user'];
 
-  if(forbiddenUsernames.indexOf(req.body.username) > -1) {
-
+  if(forbiddenUsernames.indexOf(req.body.username.toLowerCase()) > -1) {
     res.status(400).send({ message: 'Username is forbidden.' });
-
   } else if(!emailRegex.test(req.body.email)) {
-
     res.status(400).send({ message: 'Invalid email.' });
-
   } else {
-    db.query('SELECT * FROM account WHERE username=$1 LIMIT 1;', [req.body.username])
+    db.query('SELECT * FROM account WHERE LOWER(username) LIKE LOWER($1) LIMIT 1;', [req.body.username])
       .on('end', function(result) {
         if(result.length > 0) {
           res.status(400).send({ message: 'Username is already taken.' });
         } else {
-
           bcrypt.hash(req.body.password, 10).then(function(hash) {
             db.query('INSERT INTO account(username, email, password) VALUES ($1, $2, $3)',
               [req.body.username, req.body.email, hash])
@@ -40,7 +35,6 @@ function registerUser(req, res) {
                 res.status(500).send();
               });
           })
-
         } 
       })
       .on('error', function(err) {

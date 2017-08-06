@@ -51,46 +51,45 @@ function getIdeas(req, res) {
       INNER JOIN category c ON i.category_id = c.id
       LEFT JOIN account a ON i.author_id = a.id
     ORDER BY i.created_at DESC
-    OFFSET $2 LIMIT $3;` 
+    OFFSET $2 LIMIT $3;`; 
 
   db.query(queryString, [user_id, offset, limit])
     .on('end', function(result) {
       res.status(200).send(result.rows);
     })
     .on('error', function(err) {
-      console.log(err);
       res.status(500).send();
     });
 };
 
 function getIdea(req, res) {
-  const queryString = `SELECT 
-      i.id as id, 
-      i.name as name, 
-      i.description as description,
-      i.created_at as created_at,
-      c.name as category_name,
-      a.username as author_name,
-      (SELECT CAST(COUNT(*) AS INT) FROM star WHERE idea_id = i.id) as rating,
-      (CASE WHEN 
-        (SELECT COUNT(*) FROM star WHERE idea_id = i.id AND account_id = $1) > 0 
-        THEN TRUE ELSE FALSE END) as is_starred
-    FROM idea i 
-      INNER JOIN category c ON i.category_id = c.id
-      LEFT JOIN account a ON i.author_id = a.id
-    WHERE i.id = $1;`
+  res.status(501).send();
+  // const queryString = `SELECT 
+  //     i.id as id, 
+  //     i.name as name, 
+  //     i.description as description,
+  //     i.created_at as created_at,
+  //     c.name as category_name,
+  //     a.username as author_name,
+  //     (SELECT CAST(COUNT(*) AS INT) FROM star WHERE idea_id = i.id) as rating,
+  //     (CASE WHEN 
+  //       (SELECT COUNT(*) FROM star WHERE idea_id = i.id AND account_id = $1) > 0 
+  //       THEN TRUE ELSE FALSE END) as is_starred
+  //   FROM idea i 
+  //     INNER JOIN category c ON i.category_id = c.id
+  //     LEFT JOIN account a ON i.author_id = a.id
+  //   WHERE i.id = $1;`;
 
-  db.query(queryString, [req.params.id])
-    .on('end', function(result) {
-      if (result.rows.length == 0) {
-        res.status(404).send();
-      }
-      res.status(200).send(result.rows[0]);
-    })
-    .on('error', function(err) {
-      console.log(err);
-      res.status(500).send();
-    });
+  // db.query(queryString, [req.params.id])
+  //   .on('end', function(result) {
+  //     if (result.rows.length == 0) {
+  //       res.status(404).send();
+  //     }
+  //     res.status(200).send(result.rows[0]);
+  //   })
+  //   .on('error', function(err) {
+  //     res.status(500).send();
+  //   });
 };
 
 function createIdea(req, res) {
@@ -99,12 +98,14 @@ function createIdea(req, res) {
 
   const queryString = `INSERT INTO 
     idea(name, description, category_id, author_id) 
-    VALUES ($1, $2, $3, $4);`
+    VALUES ($1, $2, $3, $4);`;
 
-  var queryParams = [req.body.name, 
+  var queryParams = [
+    req.body.name, 
     req.body.description, 
     req.body.category_id, 
-    user_id];
+    user_id
+  ];
 
   db.query(queryString, queryParams)
     .on('end', function(result) {
@@ -116,25 +117,32 @@ function createIdea(req, res) {
 }
 
 function updateIdea(req, res) {
-  const queryString = `UPDATE idea SET 
-    name = $1,
-    description = $2,
-    category_id = $3,
-    updated_at = now()
-    WHERE id = $4;`
+  if(!req.user) {
+    res.status(403).send();
+  } else {
+    res.status(501).send();
+    // const queryString = `UPDATE idea SET 
+    //   name = $1,
+    //   description = $2,
+    //   category_id = $3,
+    //   updated_at = now()
+    //   WHERE id = $4;`;
 
-  var queryParams = [req.body.name, 
-    req.body.description, 
-    req.body.category_id, 
-    req.params.id];
+    // var queryParams = [
+    //   req.body.name, 
+    //   req.body.description, 
+    //   req.body.category_id, 
+    //   req.params.id
+    // ];
 
-  db.query(queryString, queryParams)
-    .on('end', function(result) {
-      res.status(200).send();
-    })
-    .on('error', function(err) {
-      res.status(500).send();
-    });
+    // db.query(queryString, queryParams)
+    //   .on('end', function(result) {
+    //     res.status(200).send();
+    //   })
+    //   .on('error', function(err) {
+    //     res.status(500).send();
+    //   });
+  }
 }
 
 function deleteIdea(req, res) {
@@ -156,23 +164,26 @@ function starIdea(req, res) {
   if(!req.user) {
     res.status(403).send();
   } else {
-    const queryString = `INSERT INTO star(idea_id, account_id) VALUES ($1, $2);`
+    const queryString = `INSERT INTO star(idea_id, account_id) VALUES ($1, $2);`;
     db.query(queryString, [req.params.id, req.user.sub])
-      .on('end', function(result) {
-        
-        const queryString = `SELECT CAST(COUNT(*) AS INT) FROM star WHERE idea_id = $1`
+      .on('end', function(result) {      
+        const queryString = `SELECT 
+            CAST(COUNT(*) AS INT) as count 
+            FROM star 
+            WHERE idea_id = $1`
         db.query(queryString, [req.params.id])
           .on('end', function(result) {
-            res.status(200).send({ 'rating' : result.rows[0].count });
+            res.status(200).send({ rating : result.rows[0].count });
           })
           .on('error', function(err) {
             res.status(500).send();
           });
-
       })
       .on('error', function(err) {
-        if(err.code == 23505) { // "unique_violation" error code for pg
-          res.status(409).send("Idea has been already starred.");
+        if(err.code == 23503) { // 'Key is not present in table' error code
+          res.status(404).send();
+        } else if(err.code == 23505) { // 'unique_violation' error code 
+          res.status(409).send({ message: 'Idea has been already starred.' });
         } else {
           res.status(500).send();
         }    
@@ -184,22 +195,23 @@ function unstarIdea(req, res) {
   if(!req.user) {
     res.status(403).send();
   } else {
-    const queryString = `DELETE FROM star WHERE idea_id = $1 AND account_id = $2;`
+    const queryString = `DELETE FROM star WHERE idea_id = $1 AND account_id = $2;`;
     db.query(queryString, [req.params.id, req.user.sub])
       .on('end', function(result) {
         if(result.rowCount == 0) {
           res.status(404).send();
-        } else {
-          
-          const queryString = `SELECT CAST(COUNT(*) AS INT) FROM star WHERE idea_id = $1`
+        } else {      
+          const queryString = `SELECT 
+            CAST(COUNT(*) AS INT) as count 
+            FROM star 
+            WHERE idea_id = $1`
           db.query(queryString, [req.params.id])
             .on('end', function(result) {
-              res.status(200).send({ 'rating' : result.rows[0].count });
+              res.status(200).send({ rating : result.rows[0].count });
             })
             .on('error', function(err) {
               res.status(500).send();
             });
-
         } 
       })
       .on('error', function(err) {

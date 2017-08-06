@@ -51,13 +51,31 @@
     var authService = {};
 
     authService.login = function(username, password, callback) {
-      $http.post('api/auth', { username: username, password: password })
-        .success(function (response) {
-          $localStorage.currentUser = { username: username, token: response.token };
+      $http.post('api/auth/token', { username: username, password: password })
+        .success(function (result) {
+          
+          $localStorage.currentUser = { 
+            username: username, 
+            token: result.token, 
+            exp: result.exp 
+          };
+
           authService.setHeaders();
           callback(true);
         })
-        .error(function(data) {
+        .error(function(err) {
+          callback(false);
+        });
+    }
+
+    authService.refresh = function() {
+      $http.post('api/auth/refresh')
+        .success(function (result) {
+          $localStorage.currentUser.token = result.token; // not tested
+          authService.setHeaders();
+          callback(true);
+        })
+        .error(function(err) {
           callback(false);
         });
     }

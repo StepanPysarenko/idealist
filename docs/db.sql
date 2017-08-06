@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS account (
   username varchar NOT NULL,
   email varchar NOT NULL,
   password varchar NOT NULL,
+  reauth boolean DEFAULT FALSE,
   created_at timestamp DEFAULT current_timestamp,
   updated_at timestamp NULL
 );
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS idea (
   id serial primary key,
   name NOT NULL varchar,
   description varchar NOT NULL,
-  author_id integer NULL REFERENCES account (id),
+  author_id integer NULL REFERENCES account (id) ON DELETE SET NULL,
   category_id integer REFERENCES category (id),
   created_at timestamp DEFAULT current_timestamp,
   updated_at timestamp NULL
@@ -53,12 +54,11 @@ INSERT INTO account(username, email, password) VALUES
 
 --------------------------------------------------
 INSERT INTO star(idea_id, account_id) VALUES
-(67, 1),
-(67, 2),
-(68, 1),
-(68, 4),
-(68, 5),
-(68, 6),
-(69, 3),
-(72, 1),
-(73, 1);
+(73, 4),
+(73, 5),
+(72, 9),
+(66, 9),
+(69, 9),
+(69, 2),
+(72, 3),
+(66, 8);
